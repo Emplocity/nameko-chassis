@@ -104,7 +104,7 @@ To run the all tests run::
 Authors
 =======
 
-``nameko-prometheus`` is developed and maintained by `Emplocity`_.
+``nameko-chassis`` is developed and maintained by `Emplocity`_.
 
 .. _Emplocity: https://emplocity.com/
 
