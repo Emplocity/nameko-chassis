@@ -63,9 +63,9 @@ Features
 By using ``nameko_chassis.Service``, you'll get:
 
  - error reporting using Sentry
- - integrated metrics endpoint for Prometheus
+ - integrated metrics endpoint for Prometheus (TODO)
  - request tracing with Zipkin
- - helpers for service discovery
+ - helpers for service discovery (TODO)
 
 
 Installation
@@ -83,12 +83,33 @@ You can also install the in-development version with::
 Usage
 =====
 
-TODO: basic example
+.. code-block:: python
+
+   from nameko.rpc import rpc
+   from nameko_chassis.service import Service
+
+
+   class MyService(Service):
+       name = "my_service"
+
+       @rpc
+       def my_method(self):
+           try:
+               self.zipkin.update_binary_annotations({
+                  "foo": "bar",
+               })
+           except Exception:
+               self.sentry.captureException()
+
+
+.. note::
+   If the RPC method raises an unhandled exception, nameko-sentry will
+   automatically capture it to Sentry. The example above demonstrates the case
+   when one wants to access the client manually.
 
 
 Documentation
 =============
-
 
 https://nameko-chassis.readthedocs.io/
 
