@@ -12,7 +12,7 @@ with open("README.rst", "r") as f:
 
 setup(
     name="nameko-chassis",
-    version="version='0.1.0'",
+    version="0.1.0",
     license="Apache-2.0",
     description="nameko-chassis provides an opinionated base class for building resilient, observable microservices. ",
     long_description=long_description,
