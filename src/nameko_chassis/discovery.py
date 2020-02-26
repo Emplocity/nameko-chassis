@@ -3,7 +3,6 @@ from typing import List
 
 from pyrabbit.api import Client
 
-
 logger = logging.getLogger(__name__)
 
 
