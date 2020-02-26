@@ -2,6 +2,11 @@
 Changelog
 =========
 
+0.2.0 (2020-02-26)
+------------------
+
+* Add integrated HTTP ``/metrics`` endpoint to expose Prometheus metrics.
+
 0.1.1 (2020-02-25)
 ------------------
 

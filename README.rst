@@ -43,9 +43,9 @@ Overview
     :alt: Supported implementations
     :target: https://pypi.org/project/nameko-chassis
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/Emplocity/nameko-chassis/v0.1.1.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/Emplocity/nameko-chassis/v0.2.0.svg
     :alt: Commits since latest release
-    :target: https://github.com/Emplocity/nameko-chassis/compare/v0.1.1...master
+    :target: https://github.com/Emplocity/nameko-chassis/compare/v0.2.0...master
 
 
 
