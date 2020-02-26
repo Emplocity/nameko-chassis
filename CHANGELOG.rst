@@ -2,6 +2,11 @@
 Changelog
 =========
 
+0.3.0 (2020-02-26)
+------------------
+
+* Add helpers for service discovery using RabbitMQ management API.
+
 0.2.0 (2020-02-26)
 ------------------
 
