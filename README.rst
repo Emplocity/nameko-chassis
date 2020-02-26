@@ -60,7 +60,7 @@ observable microservices with the nameko_ framework.
 Features
 ========
 
-By using ``nameko_chassis.Service``, you'll get:
+By using ``nameko_chassis.service.Service``, you'll get:
 
  - error reporting using Sentry
  - integrated metrics endpoint for Prometheus (TODO)

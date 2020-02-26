@@ -7,6 +7,10 @@ from .dependencies import SentryLoggerConfig
 
 
 class Service:
+    """
+    Base class for nameko services.
+    """
+
     name = "no name"
 
     SentryLoggerConfig()
@@ -16,4 +20,7 @@ class Service:
 
     @rpc
     def say_hello(self) -> str:
-        return "Hello from {0}!".format(self.name)
+        """
+        RPC method to ping the service to check if it can be reached.
+        """
+        return f"Hello from {self.name}!"
