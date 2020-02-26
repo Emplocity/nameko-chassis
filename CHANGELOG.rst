@@ -2,6 +2,11 @@
 Changelog
 =========
 
+0.3.1 (2020-02-26)
+------------------
+
+* Fix ambiguous Client class names causing incorrect use of raven's Client.
+
 0.3.0 (2020-02-26)
 ------------------
 
