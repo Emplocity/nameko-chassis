@@ -6,3 +6,4 @@ emplo-nameko-zipkin>=0.1.7
 nameko>=2.12.0,<3
 nameko-prometheus>=0.1,<0.2
 nameko-sentry>=1.0,<2
+pyrabbit>=1.1,<2
