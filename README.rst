@@ -63,7 +63,7 @@ Features
 By using ``nameko_chassis.service.Service``, you'll get:
 
  - error reporting using Sentry
- - integrated metrics endpoint for Prometheus (TODO)
+ - integrated metrics endpoint for Prometheus
  - request tracing with Zipkin
  - helpers for service discovery (TODO)
 
