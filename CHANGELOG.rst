@@ -2,6 +2,12 @@
 Changelog
 =========
 
+0.4.0 (2020-02-27)
+------------------
+
+* Add healthcheck/poor man's circuit breaker support.
+
+
 0.3.1 (2020-02-26)
 ------------------
 
