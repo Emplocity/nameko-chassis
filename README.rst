@@ -1,6 +1,8 @@
-========
-Overview
-========
+.. include-section-overview-start
+
+==============
+nameko-chassis
+==============
 
 .. start-badges
 
@@ -79,9 +81,13 @@ You can also install the in-development version with::
 
     pip install https://github.com/Emplocity/nameko-chassis/archive/master.zip
 
+.. include-section-overview-end
+
 
 Usage
 =====
+
+.. include-section-usage-start
 
 .. code-block:: python
 
@@ -107,6 +113,7 @@ Usage
    automatically capture it to Sentry. The example above demonstrates the case
    when one wants to access the client manually.
 
+.. include-section-usage-end
 
 Documentation
 =============

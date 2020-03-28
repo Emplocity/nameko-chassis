@@ -2,6 +2,6 @@
 Usage
 =====
 
-To use nameko-chassis in a project::
-
-	import nameko_chassis
+.. include:: ../README.rst
+   :start-after: include-section-usage-start
+   :end-before: include-section-usage-end

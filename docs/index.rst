@@ -1,8 +1,10 @@
+.. include:: ../README.rst
+   :start-after: include-section-overview-start
+   :end-before: include-section-overview-end
+
 ========
 Contents
 ========
-
-.. include:: ../README.rst
 
 .. toctree::
    :maxdepth: 2
