@@ -2,6 +2,12 @@
 Changelog
 =========
 
+0.5.0 (2020-03-28)
+------------------
+
+* *BREAKING CHANGE* Bump minimum version of nameko-prometheus to 0.2.0. This
+  is a breaking change due to how nameko-prometheus is now configured.
+
 0.4.0 (2020-02-27)
 ------------------
 
