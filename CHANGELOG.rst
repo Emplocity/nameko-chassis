@@ -2,6 +2,12 @@
 Changelog
 =========
 
+0.6.0 (2020-07-29)
+------------------
+
+* Bump minimum version of nameko-prometheus to 1.0. Even though that major
+  version changed, this should not be a breaking change.
+
 0.5.0 (2020-03-28)
 ------------------
 
