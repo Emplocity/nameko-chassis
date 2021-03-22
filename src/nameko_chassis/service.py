@@ -32,6 +32,8 @@ class WorkerState:
 class ServiceState:
     version: str
     service_name: str
+    entrypoints: List[str]
+    dependencies: List[str]
     running_workers: int
     max_workers: int
     worker_states: List[WorkerState]
@@ -61,6 +63,8 @@ class ServiceState:
         return ServiceState(
             version=os.environ.get("APP_VERSION", "unknown"),
             service_name=container.service_name,
+            entrypoints=[e.method_name for e in container.entrypoints],
+            dependencies=[d.attr_name for d in container.dependencies],
             running_workers=len(container._worker_threads),
             max_workers=container.max_workers,
             worker_states=worker_states,
