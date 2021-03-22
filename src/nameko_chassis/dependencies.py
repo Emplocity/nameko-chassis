@@ -11,6 +11,18 @@ from raven.handlers.logging import SentryHandler
 from .discovery import ServiceDiscovery
 
 
+class ContainerProvider(DependencyProvider):
+    """
+    Allows access to ``ServiceContainer`` running current worker.
+    """
+
+    def get_dependency(self, worker_ctx):
+        """
+        Returns a ``ServiceContainer`` instance which runs current worker.
+        """
+        return self.container
+
+
 class SentryLoggerConfig(DependencyProvider):
     def setup(self):
         sentry_config = self.container.config.get("SENTRY", {})
