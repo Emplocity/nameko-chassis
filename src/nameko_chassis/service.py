@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 import traceback
 from dataclasses import asdict, dataclass
 from typing import Any, Dict, List, Tuple
@@ -16,6 +17,8 @@ from nameko_zipkin import Zipkin
 from werkzeug.wrappers import Request, Response
 
 from .dependencies import ContainerProvider, SentryLoggerConfig
+
+START_TIME = time.time()
 
 
 @dataclass(frozen=True)
@@ -32,6 +35,7 @@ class WorkerState:
 class ServiceState:
     version: str
     service_name: str
+    uptime: float
     entrypoints: List[str]
     dependencies: List[str]
     running_workers: int
@@ -63,6 +67,7 @@ class ServiceState:
         return ServiceState(
             version=os.environ.get("APP_VERSION", "unknown"),
             service_name=container.service_name,
+            uptime=time.time() - START_TIME,
             entrypoints=[e.method_name for e in container.entrypoints],
             dependencies=[d.attr_name for d in container.dependencies],
             running_workers=len(container._worker_threads),
