@@ -117,6 +117,7 @@ class Service:
         HTTP, by setting the ``HTTP_STATE_ENABLED`` parameter in config.yml
         to true.
         """
+        # TODO: should we even have this HTTP endpoint?
         is_http_state_enabled = self.config.get("CHASSIS", {}).get(
             "HTTP_STATE_ENABLED", False
         )
