@@ -106,7 +106,22 @@ class Service:
     def serve_state(self, request: Request) -> Response:
         """
         Exposes service state over HTTP.
+
+        WARNING: THIS IS UNSECURE!
+
+        Your application state may include its configuration values or even
+        tracebacks from currently running workers. It is *your* responsibility
+        to restrict access to /state URL, for example with Basic Auth.
+
+        This is why you need to explicitly opt-in to inspecting state over
+        HTTP, by setting the ``HTTP_STATE_ENABLED`` parameter in config.yml
+        to true.
         """
+        is_http_state_enabled = self.config.get("CHASSIS", {}).get(
+            "HTTP_STATE_ENABLED", False
+        )
+        if not is_http_state_enabled:
+            return Response(status=404)
         return Response(
             json.dumps(asdict(ServiceState.from_container(self.container))),
             status=200,
