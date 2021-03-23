@@ -2,6 +2,15 @@
 Changelog
 =========
 
+0.7.0 (no release date yet)
+---------------------------
+
+* Minimum required Python version is now 3.7.
+* Add ``query_state()`` RPC method to access detailed information about
+  running service.
+* Add ``nameko_chassis.debug`` module intended to debug live services
+  with nameko backdoor.
+
 0.6.0 (2020-07-29)
 ------------------
 
