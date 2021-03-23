@@ -61,7 +61,7 @@ def debug_state_rich(state: ServiceState) -> None:
     renderables: List[RenderableType] = [
         f"""{len(state.entrypoints)} entrypoints
 {len(state.dependencies)} dependencies
-running {state.running_workers}/{state.max_workers} worker threads"""
+Running {state.running_workers}/{state.max_workers} worker threads"""
     ]
     for i, worker_state in enumerate(state.worker_states):
         formatted_stack = "".join(
