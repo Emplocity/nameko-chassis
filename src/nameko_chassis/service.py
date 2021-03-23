@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-import json
 import os
 import time
 import traceback
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List
 
 from nameko.containers import ServiceContainer
 from nameko.dependency_providers import Config
@@ -110,30 +109,3 @@ class Service:
         Exposes Prometheus metrics over HTTP.
         """
         return self.metrics.expose_metrics(request)
-
-    @http("GET", "/state")
-    def serve_state(self, request: Request) -> Response:
-        """
-        Exposes service state over HTTP.
-
-        WARNING: THIS IS UNSECURE!
-
-        Your application state may include its configuration values or even
-        tracebacks from currently running workers. It is *your* responsibility
-        to restrict access to /state URL, for example with Basic Auth.
-
-        This is why you need to explicitly opt-in to inspecting state over
-        HTTP, by setting the ``HTTP_STATE_ENABLED`` parameter in config.yml
-        to true.
-        """
-        # TODO: should we even have this HTTP endpoint?
-        is_http_state_enabled = self.config.get("CHASSIS", {}).get(
-            "HTTP_STATE_ENABLED", False
-        )
-        if not is_http_state_enabled:
-            return Response(status=404)
-        return Response(
-            json.dumps(asdict(ServiceState.from_container(self.container))),
-            status=200,
-            content_type="application/json",
-        )
