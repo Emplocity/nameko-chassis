@@ -89,6 +89,9 @@ Usage
 
 .. include-section-usage-start
 
+Base service class
+------------------
+
 .. code-block:: python
 
    from nameko.rpc import rpc
@@ -112,6 +115,58 @@ Usage
    If the RPC method raises an unhandled exception, nameko-sentry will
    automatically capture it to Sentry. The example above demonstrates the case
    when one wants to access the client manually.
+
+Backdoor debugging
+------------------
+
+``nameko-chassis.debug`` includes helpers for introspecting running services
+with nameko backdoor feature. For example if your service exposes backdoor
+on port 12345::
+
+    $ rlwrap nc -v localhost 12345
+    Connection to localhost 12345 port [tcp/*] succeeded!
+    Python 3.8.8 (default, Mar 23 2021, 11:02:14)
+    [GCC 9.3.0] on linux
+    Type "help", "copyright", "credits" or "license" for more information.
+    (InteractiveConsole)
+    >>> from nameko_chassis.debug import debug_runner
+    >>> debug_runner(runner)
+    ╭──────────────────────────── sleeping_http_service ───────────────────────────╮
+    │ 19 entrypoints                                                               │
+    │ 15 dependencies                                                              │
+    │ running 1/10 worker threads                                                  │
+    │ ╭────────────────── Thread #0: SleepingHttpService.sleep ──────────────────╮ │
+    │ │                                                                          │ │
+    │ │ Args: ["<Request 'http://127.0.0.1:8000/sleep/500' [GET]>"]              │ │
+    │ │ Kwargs: {'duration': '500'}                                              │ │
+    │ │ Context data: {'X-B3-ParentSpanId': '1058ef878ab0fe32'}                  │ │
+    │ │                                                                          │ │
+    │ │ Traceback:                                                               │ │
+    │ │   File                                                                   │ │
+    │ │ "/home/zbigniewsiciarz/v/sleephttp/lib/python3.8/site-packages/eventlet… │ │
+    │ │ line 221, in main                                                        │ │
+    │ │     result = function(*args, **kwargs)                                   │ │
+    │ │   File                                                                   │ │
+    │ │ "/home/zbigniewsiciarz/v/sleephttp/lib/python3.8/site-packages/nameko/c… │ │
+    │ │ line 392, in _run_worker                                                 │ │
+    │ │     result = method(*worker_ctx.args, **worker_ctx.kwargs)               │ │
+    │ │   File "./app/service.py", line 73, in sleep                             │ │
+    │ │     time.sleep(duration)                                                 │ │
+    │ │   File                                                                   │ │
+    │ │ "/home/zbigniewsiciarz/v/sleephttp/lib/python3.8/site-packages/eventlet… │ │
+    │ │ line 36, in sleep                                                        │ │
+    │ │     hub.switch()                                                         │ │
+    │ │   File                                                                   │ │
+    │ │ "/home/zbigniewsiciarz/v/sleephttp/lib/python3.8/site-packages/eventlet… │ │
+    │ │ line 313, in switch                                                      │ │
+    │ │     return self.greenlet.switch()                                        │ │
+    │ │                                                                          │ │
+    │ ╰──────────────────────────────────────────────────────────────────────────╯ │
+    ╰──────────────────────────────────────────────────────────────────────────────╯
+
+.. note:: Pretty printing like in the above example requires rich_.
+
+    .. _rich: https://github.com/willmcgugan/rich
 
 .. include-section-usage-end
 
