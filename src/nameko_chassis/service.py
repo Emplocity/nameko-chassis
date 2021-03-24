@@ -22,6 +22,10 @@ START_TIME = time.time()
 
 @dataclass(frozen=True)
 class WorkerState:
+    """
+    Attributes of a single running worker greenthread.
+    """
+
     class_name: str
     method_name: str
     args: List[str]
@@ -32,6 +36,10 @@ class WorkerState:
 
 @dataclass(frozen=True)
 class ServiceState:
+    """
+    Introspection result for an entire service, including running workers.
+    """
+
     version: str
     service_name: str
     uptime: float
