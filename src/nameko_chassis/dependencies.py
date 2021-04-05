@@ -42,9 +42,6 @@ class ServiceDiscoveryProvider(DependencyProvider):
         self.username = username
         self.password = password
 
-    def setup(self):
-        self.client = Client(self.management_host, self.username, self.password)
-        self.discovery = ServiceDiscovery(self.client)
-
     def get_dependency(self, worker_ctx: WorkerContext) -> ServiceDiscovery:
-        return self.discovery
+        client = Client(self.management_host, self.username, self.password)
+        return ServiceDiscovery(client)
