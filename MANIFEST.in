@@ -7,13 +7,13 @@ include .bumpversion.cfg
 include .coveragerc
 include .cookiecutterrc
 include .editorconfig
-
 include AUTHORS.rst
 include CHANGELOG.rst
 include CONTRIBUTING.rst
 include LICENSE
 include README.rst
-
-include mypy.ini tox.ini .travis.yml .appveyor.yml .readthedocs.yml
+include mypy.ini
+include test_requirements.txt
+include tox.ini
 
 global-exclude *.py[cod] __pycache__/* *.so *.dylib
