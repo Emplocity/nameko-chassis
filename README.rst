@@ -12,7 +12,7 @@ nameko-chassis
     * - docs
       - |docs|
     * - tests
-      - | |travis|
+      - | |actions|
         | |coveralls|
     * - package
       - | |version| |wheel| |supported-versions| |supported-implementations|
@@ -21,9 +21,9 @@ nameko-chassis
     :target: https://readthedocs.org/projects/nameko-chassis
     :alt: Documentation Status
 
-.. |travis| image:: https://api.travis-ci.org/Emplocity/nameko-chassis.svg?branch=master
-    :alt: Travis-CI Build Status
-    :target: https://travis-ci.org/Emplocity/nameko-chassis
+.. |actions| image:: https://github.com/Emplocity/nameko-chassis/actions/workflows/build.yml/badge.svg
+    :alt: Github Actions Build Status
+    :target: https://github.com/Emplocity/nameko-chassis/actions/
 
 .. |coveralls| image:: https://coveralls.io/repos/Emplocity/nameko-chassis/badge.svg?branch=master&service=github
     :alt: Coverage Status
