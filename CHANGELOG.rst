@@ -2,7 +2,8 @@
 Changelog
 =========
 
-0.8.0 (no release date yet)
+0.8.0 (2021-10.15)
+------------------
 
 * Add support for Python 3.9.
 * Move CI infrastructure to Github Actions.
