@@ -2,8 +2,13 @@
 Changelog
 =========
 
-0.7.0 (no release date yet)
----------------------------
+0.8.0 (no release date yet)
+
+* Add support for Python 3.9.
+* Move CI infrastructure to Github Actions.
+
+0.7.0 (2021-03-24)
+------------------
 
 * Minimum required Python version is now 3.7.
 * Add ``query_state()`` RPC method to access detailed information about
