@@ -1,8 +1,6 @@
-from unittest.mock import create_autospec
-
 from nameko.testing.services import worker_factory
 from nameko_prometheus.dependencies import MetricsServer
-from werkzeug.wrappers import Request
+from werkzeug.test import EnvironBuilder
 
 from nameko_chassis.service import Service
 
@@ -17,7 +15,9 @@ def test_say_hello():
 
 
 def test_serve_metrics():
-    request = create_autospec(Request)
+    request = EnvironBuilder(
+        method="GET", path="/metrics", headers={"Accept": "text/html"}
+    ).get_request()
     # replace metrics mock with a real dependency from nameko-prometheus
     service = worker_factory(MyService, metrics=MetricsServer())
     response = service.serve_metrics(request)
