@@ -1,3 +1,5 @@
+import logging
+
 from nameko.testing.services import worker_factory
 from nameko_prometheus.dependencies import MetricsServer
 from werkzeug.test import EnvironBuilder
@@ -22,3 +24,12 @@ def test_serve_metrics():
     service = worker_factory(MyService, metrics=MetricsServer())
     response = service.serve_metrics(request)
     assert response.status_code == 200
+
+
+def test_set_log_level():
+    service = worker_factory(MyService)
+    logger = logging.getLogger("foo.bar")
+    logger.setLevel(logging.ERROR)
+    service.set_log_level("foo.bar", logging.DEBUG)
+    logger = logging.getLogger("foo.bar")
+    assert logger.level == logging.DEBUG
