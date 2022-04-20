@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import logging
 import os
+import socket
 import time
 import traceback
 from dataclasses import asdict, dataclass
@@ -117,3 +119,43 @@ class Service:
         Exposes Prometheus metrics over HTTP.
         """
         return self.metrics.expose_metrics(request)
+
+    @rpc
+    def set_log_level(self, logger_name: str, level: int) -> str:
+        """
+        Temporarily override log level in a running service.
+
+        Useful for example for debugging a live service instance, where your
+        default log level is INFO or higher to avoid clutter in logs. This
+        RPC allows you to change log level while the application is running.
+
+        For example::
+
+            >>> n.rpc.my_service.set_log_level("some.module", logging.DEBUG)
+
+        Now your logs will include debug messages from ``some.module`` even if
+        your static log configuration (dictConfig etc.) silenced them.
+
+        Caveat #1: Updating log level in this manner will only affect loggers
+        acquired *after* this RPC call. So your code must call
+        ``logging.get_logger()`` as late as possible. This unfortunately means
+        that library code may or may not be affected - depends on how the
+        library acquires its loggers.
+
+        Caveat #2: If your service runs in multiple replicas behind a load
+        balancer, you must call this RPC method at least as many times as
+        there are replicas to ensure that each replica will have its log level
+        changed.
+        """
+        logger = logging.getLogger(__name__)
+        logger_to_change = logging.getLogger(logger_name)
+        logger.info(
+            f"Updating level for {logger_name} from {logger_to_change.level} to {level}"
+        )
+        message = f"""
+        Log level changed on host {socket.gethostname()}. Revert with:
+
+            n.rpc.{self.name}.set_log_level({logger_name!r}, {logger_to_change.level!r})
+        """
+        logger_to_change.setLevel(level)
+        return message

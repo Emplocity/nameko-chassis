@@ -1,6 +1,11 @@
-
 Changelog
 =========
+
+0.9.0 (no release date yet)
+---------------------------
+
+* Add ``set_log_level()`` RPC method to dynamically change log level at
+  runtime for supported loggers.
 
 0.8.1 (2021-11-12)
 ------------------
