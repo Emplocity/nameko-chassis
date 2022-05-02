@@ -5,7 +5,6 @@ from os.path import basename, splitext
 
 from setuptools import find_packages, setup
 
-
 with open("README.rst", "r") as f:
     long_description = f.read()
 
@@ -32,9 +31,9 @@ setup(
         "Operating System :: POSIX",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: Implementation :: CPython",
         "Topic :: Utilities",
     ],
@@ -43,7 +42,7 @@ setup(
         "Changelog": "https://nameko-chassis.readthedocs.io/en/latest/changelog.html",
         "Issue Tracker": "https://github.com/Emplocity/nameko-chassis/issues",
     },
-    python_requires=">=3.7.*",
+    python_requires=">=3.8.*",
     install_requires=[
         "nameko>=2,<3",
         "nameko-sentry>=1.0,<2",
