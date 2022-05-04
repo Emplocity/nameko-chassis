@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+* Add support for Python 3.10.
+* Drop support for Python 3.7. The minimum required version is now 3.8.
+
 0.9.0 (2022-04-20)
 ------------------
 
