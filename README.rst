@@ -104,9 +104,7 @@ Base service class
        @rpc
        def my_method(self):
            try:
-               self.zipkin.update_binary_annotations({
-                  "foo": "bar",
-               })
+               do_something()
            except Exception:
                self.sentry.captureException()
 
