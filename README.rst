@@ -59,15 +59,31 @@ observable microservices with the nameko_ framework.
 .. _nameko: https://www.nameko.io/
 
 
+Upcoming releases and distributed tracing
+=========================================
+
+We're aiming to add support for nameko 3.0 as soon as possible. However this
+will be a breaking change as we decided to drop Zipkin integration. Here's
+the plan:
+
+- 0.9.0 (current release) supports only nameko 2 and has Zipkin integration
+- 1.0 (upcoming) supports both nameko 2 and 3 RC, while dropping Zipkin. If
+  you need Zipkin support and your service is still on nameko 2, either stay on
+  nameko-chassis 0.9, or upgrade to 1.x and manage nameko-zipkin yourself.
+- In 2.0 we will only support nameko v3 and we intend to add OpenTelemetry
+  integration to base Service class. You can still use OpenTelemetry with
+  nameko-chassis 1.0 (provided you're using nameko 3), but before 2.0 you'll
+  need to set it up yourself.
+
+
 Features
 ========
 
 By using ``nameko_chassis.service.Service``, you'll get:
 
- - error reporting using Sentry
- - integrated metrics endpoint for Prometheus
- - request tracing with Zipkin
- - helpers for service discovery (TODO)
+- error reporting using Sentry
+- integrated metrics endpoint for Prometheus
+- helpers for service discovery
 
 
 Installation
