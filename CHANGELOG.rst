@@ -1,9 +1,11 @@
 Changelog
 =========
 
-Unreleased
-----------
+1.0.0 (2022-07-20)
+------------------
 
+* *BREAKING CHANGE* Drop out-of-the-box Zipkin integration.
+* Add support for nameko 3.0 RC.
 * Add support for Python 3.10.
 * Drop support for Python 3.7. The minimum required version is now 3.8.
 

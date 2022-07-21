@@ -44,9 +44,8 @@ setup(
     },
     python_requires=">=3.8.*",
     install_requires=[
-        "nameko>=2,<3",
+        "nameko>=2,<4",
         "nameko-sentry>=1.0,<2",
-        "emplo-nameko-zipkin>=0.1.7",
         "nameko-prometheus>=1.0,<2",
         "pyrabbit>=1.1,<2",
         "werkzeug>=1.0,<3",

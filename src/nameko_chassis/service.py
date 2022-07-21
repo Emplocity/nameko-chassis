@@ -14,7 +14,6 @@ from nameko.rpc import rpc
 from nameko.web.handlers import http
 from nameko_prometheus import PrometheusMetrics
 from nameko_sentry import SentryReporter
-from nameko_zipkin import Zipkin
 from werkzeug.wrappers import Request, Response
 
 from .dependencies import ContainerProvider, SentryLoggerConfig
@@ -96,7 +95,6 @@ class Service:
     sentry = SentryReporter()
     config = Config()
     container = ContainerProvider()
-    zipkin = Zipkin()
     metrics = PrometheusMetrics()
 
     @rpc
