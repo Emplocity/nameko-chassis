@@ -9,7 +9,6 @@ from dataclasses import asdict, dataclass
 from typing import Any, Dict, List
 
 from nameko.containers import ServiceContainer
-from nameko.dependency_providers import Config
 from nameko.rpc import rpc
 from nameko.web.handlers import http
 from nameko_prometheus import PrometheusMetrics
@@ -93,7 +92,6 @@ class Service:
 
     SentryLoggerConfig()
     sentry = SentryReporter()
-    config = Config()
     container = ContainerProvider()
     metrics = PrometheusMetrics()
 
