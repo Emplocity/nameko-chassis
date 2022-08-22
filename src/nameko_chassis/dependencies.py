@@ -1,6 +1,7 @@
 import logging
 import os
 
+from nameko import config
 from nameko.containers import WorkerContext
 from nameko.extensions import DependencyProvider
 from pyrabbit.api import Client
@@ -25,7 +26,7 @@ class ContainerProvider(DependencyProvider):
 
 class SentryLoggerConfig(DependencyProvider):
     def setup(self):
-        sentry_config = self.container.config.get("SENTRY", {})
+        sentry_config = config.get("SENTRY", {})
         dsn = sentry_config.get("DSN", None)
         if dsn:
             client = RavenClient(
