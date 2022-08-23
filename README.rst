@@ -84,6 +84,11 @@ By using ``nameko_chassis.service.Service``, you'll get:
 - error reporting using Sentry
 - integrated metrics endpoint for Prometheus
 - helpers for service discovery
+- partial\* support for OpenTelemetry tracing
+
+
+\*You'll need to call the instrumentors yourself, but we provide basic
+configuration as a dependency provider.
 
 
 Installation

@@ -15,7 +15,7 @@ from nameko_prometheus import PrometheusMetrics
 from nameko_sentry import SentryReporter
 from werkzeug.wrappers import Request, Response
 
-from .dependencies import ContainerProvider, SentryLoggerConfig
+from .dependencies import ContainerProvider, OpenTelemetryConfig, SentryLoggerConfig
 
 START_TIME = time.time()
 
@@ -91,6 +91,7 @@ class Service:
     name = "no name"
 
     SentryLoggerConfig()
+    otel_config = OpenTelemetryConfig()
     sentry = SentryReporter()
     container = ContainerProvider()
     metrics = PrometheusMetrics()

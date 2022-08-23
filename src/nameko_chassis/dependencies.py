@@ -4,6 +4,11 @@ import os
 from nameko import config
 from nameko.containers import WorkerContext
 from nameko.extensions import DependencyProvider
+from opentelemetry import trace
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.resources import SERVICE_NAME, Resource
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from pyrabbit.api import Client
 from raven import Client as RavenClient
 from raven.conf import setup_logging
@@ -46,3 +51,12 @@ class ServiceDiscoveryProvider(DependencyProvider):
     def get_dependency(self, worker_ctx: WorkerContext) -> ServiceDiscovery:
         client = Client(self.management_host, self.username, self.password)
         return ServiceDiscovery(client)
+
+
+class OpenTelemetryConfig(DependencyProvider):
+    def setup(self):
+        resource = Resource(attributes={SERVICE_NAME: self.container.service_name})
+        provider = TracerProvider(resource=resource)
+        processor = BatchSpanProcessor(OTLPSpanExporter())
+        provider.add_span_processor(processor)
+        trace.set_tracer_provider(provider)
