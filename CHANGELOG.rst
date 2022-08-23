@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.0.0 (no release date yet)
+---------------------------
+
+* *BREAKING CHANGE* Drop support for nameko 2. The 2.0 release supports only
+  nameko 3.0 RC and higher.
+* Add basic configuration for OpenTelemetry tracing.
+
 1.0.0 (2022-07-20)
 ------------------
 
