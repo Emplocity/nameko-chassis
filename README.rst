@@ -59,18 +59,17 @@ observable microservices with the nameko_ framework.
 .. _nameko: https://www.nameko.io/
 
 
-Upcoming releases and distributed tracing
-=========================================
+nameko-chassis releases and distributed tracing
+===============================================
 
-We're aiming to add support for nameko 3.0 as soon as possible. However this
-will be a breaking change as we decided to drop Zipkin integration. Here's
-the plan:
+We've changed the approach to distributed tracing over a few releases. Here's
+an overview:
 
-- 0.9.0 (current release) supports only nameko 2 and has Zipkin integration
-- 1.0 (upcoming) supports both nameko 2 and 3 RC, while dropping Zipkin. If
+- 0.9.0 supports only nameko 2 and has Zipkin integration
+- 1.0 supports both nameko 2 and 3 RC, while dropping Zipkin. If
   you need Zipkin support and your service is still on nameko 2, either stay on
   nameko-chassis 0.9, or upgrade to 1.x and manage nameko-zipkin yourself.
-- In 2.0 we will only support nameko v3 and we intend to add OpenTelemetry
+- 2.0 supports only nameko v3 and provides a predefined OpenTelemetry
   integration to base Service class. You can still use OpenTelemetry with
   nameko-chassis 1.0 (provided you're using nameko 3), but before 2.0 you'll
   need to set it up yourself.
@@ -85,7 +84,6 @@ By using ``nameko_chassis.service.Service``, you'll get:
 - integrated metrics endpoint for Prometheus
 - helpers for service discovery
 - partial\* support for OpenTelemetry tracing
-
 
 \*You'll need to call the instrumentors yourself, but we provide basic
 configuration as a dependency provider.
@@ -134,6 +132,37 @@ Base service class
    If the RPC method raises an unhandled exception, nameko-sentry will
    automatically capture it to Sentry. The example above demonstrates the case
    when one wants to access the client manually.
+
+Distributed tracing
+-------------------
+
+Since nameko-chassis 2.0, we provide an opinionated setup of OpenTelemetry.
+Your services will export traces over HTTP to an endpoint defined in
+``OTEL_EXPORTER_OTLP_ENDPOINT`` environment variable. However, you need to
+call instrumentors yourself, for example:
+
+.. code-block:: python
+
+   from nameko_chassis.service import Service
+   from nameko_opentelemetry import NamekoInstrumentor
+   from opentelemetry.instrumentation.logging import LoggingInstrumentor
+
+   LoggingInstrumentor().instrument()
+
+   NamekoInstrumentor().instrument(
+       send_headers=True,
+       send_request_payloads=True,
+       send_response_payloads=True,
+       max_truncate_length=1000,
+   )
+
+   class MyService(Service):
+       name = "my_service"
+
+
+.. note::
+   We chose HTTP over GRPC due to incompatibilities between eventlet and grpc
+   with regards to asynchronous runtime.
 
 Backdoor debugging
 ------------------

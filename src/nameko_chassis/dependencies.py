@@ -54,6 +54,10 @@ class ServiceDiscoveryProvider(DependencyProvider):
 
 
 class OpenTelemetryConfig(DependencyProvider):
+    """
+    Configures OTel trace exporter over HTTP.
+    """
+
     def setup(self):
         resource = Resource(attributes={SERVICE_NAME: self.container.service_name})
         provider = TracerProvider(resource=resource)
