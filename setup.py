@@ -11,7 +11,7 @@ with open("README.rst", "r") as f:
 
 setup(
     name="nameko-chassis",
-    version="1.0.0",
+    version="2.0.0a4",
     license="Apache-2.0",
     description="nameko-chassis provides an opinionated base class for building resilient, observable microservices. ",
     long_description=long_description,
@@ -44,9 +44,14 @@ setup(
     },
     python_requires=">=3.8.*",
     install_requires=[
-        "nameko>=2,<4",
+        "nameko>=3.0rc11,<4",
         "nameko-sentry>=1.0,<2",
-        "nameko-prometheus>=1.0,<2",
+        "nameko-prometheus>=1.5.0,<2",
+        "opentelemetry-api>=1.12,<2",
+        "opentelemetry-exporter-otlp-proto-http>=1.12,<2",
+        "opentelemetry-instrumentation-nameko>=0.3,<1",
+        "opentelemetry-sdk>=1.12,<2",
+        "opentelemetry-instrumentation-logging>=0.33b0,<1",
         "pyrabbit>=1.1,<2",
         "werkzeug>=1.0,<3",
     ],
