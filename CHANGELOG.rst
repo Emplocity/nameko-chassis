@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.0.1 (2022-09-01)
+------------------
+
+* Fix obsolete nameko 2 import in is_service_responsive.
+
 2.0.0 (2022-08-25)
 ------------------
 

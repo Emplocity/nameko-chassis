@@ -1,7 +1,7 @@
 import logging
 
 import eventlet
-from nameko.rpc import ServiceProxy
+from nameko.rpc import Client
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +11,7 @@ class ServiceTimeout(Exception):
 
 
 def is_service_responsive(
-    service_proxy: ServiceProxy,
+    service_proxy: Client,
     fail_gracefully=False,
     timeout: float = 5,
     method_name: str = "say_hello",
