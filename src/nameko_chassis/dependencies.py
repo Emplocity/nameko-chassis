@@ -1,7 +1,8 @@
 import logging
-import os
+from weakref import WeakKeyDictionary
 
-from nameko import config
+import nameko
+import sentry_sdk
 from nameko.containers import WorkerContext
 from nameko.extensions import DependencyProvider
 from opentelemetry import trace
@@ -10,11 +11,12 @@ from opentelemetry.sdk.resources import SERVICE_NAME, Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from pyrabbit.api import Client
-from raven import Client as RavenClient
-from raven.conf import setup_logging
-from raven.handlers.logging import SentryHandler
+from sentry_sdk import Hub
+from sentry_sdk.utils import event_from_exception
 
 from .discovery import ServiceDiscovery
+
+logger = logging.getLogger(__name__)
 
 
 class ContainerProvider(DependencyProvider):
@@ -27,19 +29,6 @@ class ContainerProvider(DependencyProvider):
         Returns a ``ServiceContainer`` instance which runs current worker.
         """
         return self.container
-
-
-class SentryLoggerConfig(DependencyProvider):
-    def setup(self):
-        sentry_config = config.get("SENTRY", {})
-        dsn = sentry_config.get("DSN", None)
-        if dsn:
-            client = RavenClient(
-                dsn, environment=os.environ.get("SENTRY_ENVIRONMENT", "local")
-            )
-            handler = SentryHandler(client)
-            handler.setLevel(logging.ERROR)
-            setup_logging(handler)
 
 
 class ServiceDiscoveryProvider(DependencyProvider):
@@ -64,3 +53,49 @@ class OpenTelemetryConfig(DependencyProvider):
         processor = BatchSpanProcessor(OTLPSpanExporter())
         provider.add_span_processor(processor)
         trace.set_tracer_provider(provider)
+
+
+class ErrorSentryHandler(DependencyProvider):
+    """
+    Based on https://gist.github.com/puittenbroek/f9de6ddc1fbc1ac838fd46b31c827371
+    and https://gist.github.com/zsiciarz/84a358e9bfabc7f4857590e407d77b3b
+    """
+
+    def __init__(self):
+        self.hubs = WeakKeyDictionary()
+        self.main_hub = None
+
+    def setup(self):
+        sentry_config = nameko.config.get("SENTRY", {})
+        dsn = sentry_config.get("DSN")
+        if dsn:
+            sentry_sdk.init(dsn)
+            self.main_hub = Hub.current
+            logger.info("Sentry init completed")
+        else:
+            logger.warning("Skipped sentry init; no DSN configured")
+
+    def worker_setup(self, worker_ctx):
+        if self.main_hub:
+            self.hubs[worker_ctx] = Hub(self.main_hub)
+
+    def worker_result(self, worker_ctx, result=None, exc_info=None):
+        if exc_info is None:
+            return  # nothing to do
+
+        # Fetch the earlier saved Hub.
+        worker_hub = self.hubs.get(worker_ctx)
+        if not worker_hub:
+            return  # sentry not setup
+
+        # Capture the error in sentry.
+        with worker_hub:
+            client = worker_hub.client
+
+            event, hint = event_from_exception(
+                exc_info,
+                client_options=client.options,
+                mechanism={"type": "threading", "handled": False},
+            )
+            res = worker_hub.capture_event(event, hint=hint)
+            logger.debug(f"capture_event result: {res}")

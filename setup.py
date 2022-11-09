@@ -45,7 +45,6 @@ setup(
     python_requires=">=3.8.*",
     install_requires=[
         "nameko>=3.0rc11,<4",
-        "nameko-sentry>=1.0,<2",
         "nameko-prometheus>=1.5.0,<2",
         "opentelemetry-api>=1.12,<2",
         "opentelemetry-exporter-otlp-proto-http>=1.12,<2",
@@ -53,6 +52,7 @@ setup(
         "opentelemetry-sdk>=1.12,<2",
         "opentelemetry-instrumentation-logging>=0.33b0,<1",
         "pyrabbit>=1.1,<2",
+        "sentry_sdk>=1.0,<2",
         "werkzeug>=1.0,<3",
     ],
 )
