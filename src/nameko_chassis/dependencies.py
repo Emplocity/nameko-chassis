@@ -1,4 +1,7 @@
 import logging
+import sys
+import warnings
+from typing import Any
 from weakref import WeakKeyDictionary
 
 import nameko
@@ -55,6 +58,51 @@ class OpenTelemetryConfig(DependencyProvider):
         trace.set_tracer_provider(provider)
 
 
+class RavenCompatClient:
+    """
+    This class provides basic API compatibility layer for legacy projects.
+
+    If you used client dependency from nameko-sentry in your services, this
+    class provides a barebones legacy raven API.
+    """
+
+    def __init__(self, hub):
+        self.hub = hub
+
+    def captureException(self, **kwargs) -> None:
+        warnings.warn(
+            "captureException() is a legacy API, use sentry_sdk.capture_exception()",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        client = self.hub.client
+        exc_info = sys.exc_info()
+
+        event, hint = event_from_exception(
+            exc_info,
+            client_options=client.options,
+            mechanism={"type": "threading", "handled": False},
+        )
+        res = self.hub.capture_event(event, hint=hint)
+        logger.debug(f"capture_event result: {res}")
+
+    def captureMessage(self, message: str, **kwargs) -> None:
+        warnings.warn(
+            "captureMessage() is a legacy API, use sentry_sdk.capture_message()",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        sentry_sdk.capture_message(message, **kwargs)
+
+    def user_context(self, ctx: dict[str, Any]) -> None:
+        warnings.warn(
+            "user_context() is a legacy API, use sentry_sdk.set_context()",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        sentry_sdk.set_context("user", ctx)
+
+
 class ErrorSentryHandler(DependencyProvider):
     """
     Based on https://gist.github.com/puittenbroek/f9de6ddc1fbc1ac838fd46b31c827371
@@ -75,9 +123,19 @@ class ErrorSentryHandler(DependencyProvider):
         else:
             logger.warning("Skipped sentry init; no DSN configured")
 
+    def _ensure_hub(self, worker_ctx):
+        hub = self.hubs.get(worker_ctx)
+        if not hub:
+            hub = Hub(self.main_hub)
+            self.hubs[worker_ctx] = hub
+        return hub
+
     def worker_setup(self, worker_ctx):
-        if self.main_hub:
-            self.hubs[worker_ctx] = Hub(self.main_hub)
+        self._ensure_hub(worker_ctx)
+
+    def get_dependency(self, worker_ctx):
+        hub = self._ensure_hub(worker_ctx)
+        return RavenCompatClient(hub)
 
     def worker_result(self, worker_ctx, result=None, exc_info=None):
         if exc_info is None:
