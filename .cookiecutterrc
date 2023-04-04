@@ -39,7 +39,7 @@ default_context:
     full_name:                 'Emplocity'
     landscape:                 'no'
     license:                   'Apache Software License 2.0'
-    linter:                    'flake8'
+    linter:                    'ruff'
     package_name:              'nameko_chassis'
     project_name:              'nameko-chassis'
     project_short_description: 'nameko-chassis provides an opinionated base class for building resilient, observable microservices. '

@@ -42,7 +42,7 @@ setup(
         "Changelog": "https://nameko-chassis.readthedocs.io/en/latest/changelog.html",
         "Issue Tracker": "https://github.com/Emplocity/nameko-chassis/issues",
     },
-    python_requires=">=3.8.*",
+    python_requires=">=3.8",
     install_requires=[
         "nameko>=3.0rc11,<4",
         "nameko-sentry>=1.0,<2",

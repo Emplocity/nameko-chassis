@@ -1,0 +1,14 @@
+[tool.ruff]
+extend-exclude = [
+    ".venv",
+    "migrations",
+]
+ignore = [
+    "E402",
+    "E501",
+]
+select = [
+    "E",
+    "F",
+    "W",
+]
