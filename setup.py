@@ -11,7 +11,7 @@ with open("README.rst", "r") as f:
 
 setup(
     name="nameko-chassis",
-    version="2.0.1",
+    version="2.1.0",
     license="Apache-2.0",
     description="nameko-chassis provides an opinionated base class for building resilient, observable microservices. ",
     long_description=long_description,
@@ -42,7 +42,7 @@ setup(
         "Changelog": "https://nameko-chassis.readthedocs.io/en/latest/changelog.html",
         "Issue Tracker": "https://github.com/Emplocity/nameko-chassis/issues",
     },
-    python_requires=">=3.8.*",
+    python_requires=">=3.8",
     install_requires=[
         "nameko>=3.0rc11,<4",
         "nameko-sentry>=1.0,<2",
