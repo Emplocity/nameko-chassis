@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.2.0 (2023-11-23)
+------------------
+
+* Added log informing that service is up and all its dependencies are initialized
+* Bump github actions and dev dependencies
+
 2.1.0 (2023-04-05)
 ------------------
 
