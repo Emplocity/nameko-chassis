@@ -15,6 +15,7 @@ setup(
     license="Apache-2.0",
     description="nameko-chassis provides an opinionated base class for building resilient, observable microservices. ",
     long_description=long_description,
+    long_description_content_type="text/x-rst",
     author="Emplocity",
     author_email="zbigniew.siciarz@emplocity.pl",
     url="https://github.com/Emplocity/nameko-chassis",

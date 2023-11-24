@@ -13,7 +13,6 @@ include CHANGELOG.rst
 include CONTRIBUTING.rst
 include LICENSE
 include README.rst
-include mypy.ini
 include test_requirements.txt
 include tox.ini
 

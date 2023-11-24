@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.3.0 (2023-11-24)
+------------------
+
+* Moved tool configuration to pyproject.toml
+
 2.2.0 (2023-11-23)
 ------------------
 
