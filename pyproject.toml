@@ -1,3 +1,51 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nameko-chassis"
+description = "nameko-chassis provides an opinionated base class for building resilient, observable microservices."
+license = {file = "LICENSE"}
+readme = "README.rst"
+requires-python = ">=3.8"
+authors = [{name="Emplocity"}]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: Unix",
+    "Operating System :: POSIX",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "nameko>=3.0rc11,<4",
+    "nameko-sentry>=1.0,<2",
+    "nameko-prometheus>=1.5.0,<2",
+    "opentelemetry-api>=1.12,<2",
+    "opentelemetry-exporter-otlp-proto-http>=1.12,<2",
+    "opentelemetry-instrumentation-nameko>=0.3,<1",
+    "opentelemetry-sdk>=1.12,<2",
+    "opentelemetry-instrumentation-logging>=0.33b0,<1",
+    "pyrabbit>=1.1,<2",
+    "werkzeug>=1.0,<3",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/Emplocity/nameko-chassis"
+Documentation = "https://nameko-chassis.readthedocs.io/"
+Changelog = "https://nameko-chassis.readthedocs.io/en/latest/changelog.html"
+"Issue Tracker" = "https://github.com/Emplocity/nameko-chassis/issues"
+
+[tool.setuptools.dynamic]
+version = {attr = "nameko_chassis.__version__"}
+
 [tool.check-manifest]
 ignore = ["*.swp"]
 
@@ -48,3 +96,23 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 norecursedirs = [".git", ".tox", "dist", "build"]
 testpaths = ["tests"]
+
+[tool.coverage.paths]
+source = [
+    "src/",
+]
+
+[tool.coverage.run]
+branch = true
+source = [
+    "src/",
+    "tests/",
+]
+parallel = true
+
+[tool.coverage.report]
+show_missing = true
+precision = 2
+omit = [
+    "*/migrations/*",
+]
