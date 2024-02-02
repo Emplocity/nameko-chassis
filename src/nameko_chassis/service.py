@@ -12,7 +12,6 @@ from nameko.containers import ServiceContainer
 from nameko.rpc import rpc
 from nameko.web.handlers import http
 from nameko_prometheus import PrometheusMetrics
-from nameko_sentry import SentryReporter
 from werkzeug.wrappers import Request, Response
 
 from .dependencies import ContainerProvider, OpenTelemetryConfig, SentryLoggerConfig
@@ -92,7 +91,6 @@ class Service:
 
     SentryLoggerConfig()
     otel_config = OpenTelemetryConfig()
-    sentry = SentryReporter()
     container = ContainerProvider()
     metrics = PrometheusMetrics()
 
