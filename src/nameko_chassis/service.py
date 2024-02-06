@@ -89,7 +89,7 @@ class Service:
 
     name = "no name"
 
-    SentryLoggerConfig()
+    SentryLoggerConfig().setup()
     otel_config = OpenTelemetryConfig()
     container = ContainerProvider()
     metrics = PrometheusMetrics()
