@@ -35,47 +35,6 @@ class ContainerProvider(DependencyProvider):
         return self.container
 
 
-class SentryLoggerConfig(DependencyProvider):
-    app_env = os.environ.get("SENTRY_ENVIRONMENT", "development").lower()
-    app_version = os.environ.get("APP_VERSION", None)
-    sentry_dsn = os.environ.get("SENTRY_DSN", None)
-
-    def setup(self):
-        if self.sentry_dsn is None:
-            logger.info("Skipped sentry init; no DSN configured")
-        else:
-            try:
-                sentry_sdk.init(
-                    dsn=self.sentry_dsn,
-                    release=self.app_version,
-                    environment=self.app_env,
-                    traces_sample_rate=1.0,
-                    enable_tracing=True,
-                    before_send=self.before_send_filter,
-                    instrumenter="otel",
-                )
-                logger.info("Sentry SDK ready")
-            except BadDsn as err:
-                logger.exception(
-                    "Error initializing Sentry integration", extra=dict(error=str(err))
-                )
-                sys.exit(1)
-
-        provider = TracerProvider()
-        provider.add_span_processor(SentrySpanProcessor())
-        trace.set_tracer_provider(provider)
-        set_global_textmap(SentryPropagator())
-
-    @staticmethod
-    def before_send_filter(event, hint):
-        # also ignore retryable error log messages
-        if "log_record" in hint:
-            if "Retryable error:" in hint["log_record"].message:
-                return None
-
-        return event
-
-
 class ServiceDiscoveryProvider(DependencyProvider):
     def __init__(self, management_host: str, username: str, password: str):
         self.management_host = management_host
@@ -98,3 +57,51 @@ class OpenTelemetryConfig(DependencyProvider):
         processor = BatchSpanProcessor(OTLPSpanExporter())
         provider.add_span_processor(processor)
         trace.set_tracer_provider(provider)
+
+
+def setup_sentry_sdk():
+    app_env = os.environ.get("SENTRY_ENVIRONMENT", "development").lower()
+    app_version = os.environ.get("APP_VERSION", None)
+    sentry_dsn = os.environ.get("SENTRY_DSN", None)
+
+    if sentry_dsn is None:
+        logger.info("Skipped sentry init; no DSN configured")
+    else:
+        try:
+            sentry_sdk.init(
+                dsn=sentry_dsn,
+                release=app_version,
+                environment=app_env,
+                traces_sample_rate=1.0,
+                enable_tracing=True,
+                before_send=before_send_filter,
+                before_send_transaction=filter_transactions,
+                instrumenter="otel",
+            )
+            logger.info("Sentry SDK ready")
+        except BadDsn as err:
+            logger.exception(
+                "Error initializing Sentry integration", extra=dict(error=str(err))
+            )
+            sys.exit(1)
+
+    provider = TracerProvider()
+    provider.add_span_processor(SentrySpanProcessor())
+    trace.set_tracer_provider(provider)
+    set_global_textmap(SentryPropagator())
+
+
+def before_send_filter(event, hint):
+    # also ignore retryable error log messages
+    if "log_record" in hint:
+        if "Retryable error:" in hint["log_record"].message:
+            return None
+
+    return event
+
+
+def filter_transactions(event, hint):
+    if event['transaction'] == "/metrics":
+        return None
+
+    return event

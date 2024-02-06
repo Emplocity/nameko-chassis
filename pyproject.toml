@@ -88,6 +88,7 @@ module = [
     "nameko_prometheus.*",
     "pyrabbit.*",
     "pytest.*",
+    "sentry_sdk.*",
 ]
 
 ignore_missing_imports = true
