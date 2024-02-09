@@ -46,20 +46,7 @@ class ServiceDiscoveryProvider(DependencyProvider):
         return ServiceDiscovery(client)
 
 
-class OpenTelemetryConfig(DependencyProvider):
-    """
-    Configures OTel trace exporter over HTTP.
-    """
-
-    def setup(self):
-        resource = Resource(attributes={SERVICE_NAME: self.container.service_name})
-        provider = TracerProvider(resource=resource)
-        processor = BatchSpanProcessor(OTLPSpanExporter())
-        provider.add_span_processor(processor)
-        trace.set_tracer_provider(provider)
-
-
-def setup_sentry_sdk():
+def setup_sentry_sdk(service_name: str) -> None:
     app_env = os.environ.get("SENTRY_ENVIRONMENT", "development").lower()
     app_version = os.environ.get("APP_VERSION", None)
     sentry_dsn = os.environ.get("SENTRY_DSN", None)
@@ -85,8 +72,11 @@ def setup_sentry_sdk():
             )
             sys.exit(1)
 
-    provider = TracerProvider()
+    resource = Resource(attributes={SERVICE_NAME: service_name})
+    provider = TracerProvider(resource=resource)
     provider.add_span_processor(SentrySpanProcessor())
+    processor = BatchSpanProcessor(OTLPSpanExporter())
+    provider.add_span_processor(processor)
     trace.set_tracer_provider(provider)
     set_global_textmap(SentryPropagator())
 
@@ -101,7 +91,7 @@ def before_send_filter(event, hint):
 
 
 def filter_transactions(event, hint):
-    if event['transaction'] == "/metrics":
+    if event["transaction"] == "/metrics":
         return None
 
     return event
