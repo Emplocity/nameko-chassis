@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.4.0 (2023-02-02)
+2.4.2 (2023-02-06)
 ------------------
 
 * Use sentry-sdk instead of nameko-sentry with raven
