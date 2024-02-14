@@ -46,7 +46,7 @@ class ServiceDiscoveryProvider(DependencyProvider):
         return ServiceDiscovery(client)
 
 
-def setup_sentry_sdk(service_name: str) -> None:
+def setup_sentry_sdk() -> None:
     app_env = os.environ.get("SENTRY_ENVIRONMENT", "development").lower()
     app_version = os.environ.get("APP_VERSION", None)
     sentry_dsn = os.environ.get("SENTRY_DSN", None)
@@ -72,14 +72,6 @@ def setup_sentry_sdk(service_name: str) -> None:
             )
             sys.exit(1)
 
-    resource = Resource(attributes={SERVICE_NAME: service_name})
-    provider = TracerProvider(resource=resource)
-    provider.add_span_processor(SentrySpanProcessor())
-    processor = BatchSpanProcessor(OTLPSpanExporter())
-    provider.add_span_processor(processor)
-    trace.set_tracer_provider(provider)
-    set_global_textmap(SentryPropagator())
-
 
 def before_send_filter(event, hint):
     # also ignore retryable error log messages
@@ -95,3 +87,13 @@ def filter_transactions(event, hint):
         return None
 
     return event
+
+
+def add_sentry_service(service_name: str) -> None:
+    resource = Resource(attributes={SERVICE_NAME: service_name})
+    provider = TracerProvider(resource=resource)
+    provider.add_span_processor(SentrySpanProcessor())
+    processor = BatchSpanProcessor(OTLPSpanExporter())
+    provider.add_span_processor(processor)
+    trace.set_tracer_provider(provider)
+    set_global_textmap(SentryPropagator())
