@@ -54,6 +54,7 @@ extend-exclude = [
     ".venv",
     "migrations",
 ]
+[tool.ruff.lint]
 ignore = [
     "E402",
     "E501",
