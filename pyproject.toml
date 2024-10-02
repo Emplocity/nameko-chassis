@@ -7,7 +7,7 @@ name = "nameko-chassis"
 description = "nameko-chassis provides an opinionated base class for building resilient, observable microservices."
 license = {file = "LICENSE"}
 readme = "README.rst"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 authors = [{name="Emplocity"}]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -17,7 +17,6 @@ classifiers = [
     "Operating System :: POSIX",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: Implementation :: CPython",
