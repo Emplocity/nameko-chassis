@@ -1,6 +1,13 @@
 Changelog
 =========
 
+3.0.0 (unreleased)
+------------------
+
+* Drop support for Python 3.8.
+* Add support for Python 3.11 and 3.12.
+* Relax upper bounds on transitive dependencies to allow Sentry SDK v2.
+
 2.4.2 (2023-02-06)
 ------------------
 
