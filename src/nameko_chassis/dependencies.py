@@ -46,25 +46,29 @@ class ServiceDiscoveryProvider(DependencyProvider):
         return ServiceDiscovery(client)
 
 
-def setup_sentry_sdk() -> None:
-    app_env = os.environ.get("SENTRY_ENVIRONMENT", "development").lower()
-    app_version = os.environ.get("APP_VERSION", None)
-    sentry_dsn = os.environ.get("SENTRY_DSN", None)
+def setup_sentry_sdk(**kwargs) -> None:
+    """
+    Initialize Sentry integration. Call it once per service container.
 
-    if sentry_dsn is None:
+    All keywords arguments are forwarded to ``sentry_sdk.init()``
+    (with some defaults).
+    """
+    defaults = {
+        "release": os.environ.get("APP_VERSION", None),
+        "environment": os.environ.get("SENTRY_ENVIRONMENT", None),
+        "dsn": os.environ.get("SENTRY_DSN", None),
+        "traces_sample_rate": 1.0,
+        "enable_tracing": True,
+        "before_send": before_send_filter,
+        "before_send_transaction": filter_transactions,
+        "instrumenter": "otel",
+    }
+    params = defaults | kwargs
+    if params["dsn"] is None:
         logger.info("Skipped sentry init; no DSN configured")
     else:
         try:
-            sentry_sdk.init(
-                dsn=sentry_dsn,
-                release=app_version,
-                environment=app_env,
-                traces_sample_rate=1.0,
-                enable_tracing=True,
-                before_send=before_send_filter,
-                before_send_transaction=filter_transactions,
-                instrumenter="otel",
-            )
+            sentry_sdk.init(**params)
             logger.info("Sentry SDK ready")
         except BadDsn as err:
             logger.exception(
