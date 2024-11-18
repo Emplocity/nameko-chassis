@@ -1,6 +1,11 @@
 Changelog
 =========
 
+3.1.0 (2024-11-18)
+------------------
+
+* Give more control over Sentry initialization by forwarding keyword arguments.
+
 3.0.0 (2024-10-04)
 ------------------
 
