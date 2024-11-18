@@ -23,7 +23,7 @@ project = "nameko-chassis"
 year = "2020"
 author = "Emplocity"
 copyright = "{0}, {1}".format(year, author)
-version = release = "3.0.0"
+version = release = "3.1.0"
 
 pygments_style = "trac"
 templates_path = ["."]
