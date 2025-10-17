@@ -65,9 +65,11 @@ Running {state.running_workers}/{state.max_workers} worker threads"""
     ]
     for i, worker_state in enumerate(state.worker_states):
         formatted_stack = "".join(
-            f"[bold]{line}[/bold]"
-            if "site-packages" not in line
-            else f"[dim]{line}[/dim]"
+            (
+                f"[bold]{line}[/bold]"
+                if "site-packages" not in line
+                else f"[dim]{line}[/dim]"
+            )
             for line in worker_state.stacktrace
         )
         renderables.append(
