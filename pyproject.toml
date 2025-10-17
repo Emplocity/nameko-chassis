@@ -1,5 +1,6 @@
 [project]
 name = "nameko-chassis"
+version = "3.2.0a1"
 description = "nameko-chassis provides an opinionated base class for building resilient, observable microservices."
 license = {file = "LICENSE"}
 readme = "README.rst"
@@ -33,8 +34,6 @@ dependencies = [
     "sentry-sdk>=2",
     "werkzeug>=2.0",
 ]
-# TODO: declare version in pyproject.toml
-dynamic = ["version"]
 
 [project.urls]
 Homepage = "https://github.com/Emplocity/nameko-chassis"
@@ -56,15 +55,8 @@ dev = [
 
 # TODO: replace with uv build
 [build-system]
-requires = ["setuptools>=68.0"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools.dynamic]
-version = {attr = "nameko_chassis.__version__"}
-
-
-[tool.check-manifest]
-ignore = ["*.swp"]
+requires = ["uv_build>=0.8.23,<0.9.0"]
+build-backend = "uv_build"
 
 [tool.ruff]
 extend-exclude = [
