@@ -73,3 +73,6 @@ docs/_build
 
 # Ruff Cache
 .ruff_cache/
+
+.envrc
+.claude
