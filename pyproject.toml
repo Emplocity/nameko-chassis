@@ -56,7 +56,6 @@ dev = [
     "sphinx-rtd-theme>=3",
 ]
 
-# TODO: replace with uv build
 [build-system]
 requires = ["uv_build>=0.8.23,<0.9.0"]
 build-backend = "uv_build"
