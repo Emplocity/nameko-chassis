@@ -1,6 +1,6 @@
 [project]
 name = "nameko-chassis"
-version = "3.2.0a1"
+version = "3.2.0"
 description = "nameko-chassis provides an opinionated base class for building resilient, observable microservices."
 license = {file = "LICENSE"}
 readme = "README.rst"

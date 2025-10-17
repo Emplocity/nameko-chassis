@@ -1,6 +1,13 @@
 Changelog
 =========
 
+3.2.0 (2025-10-17)
+------------------
+
+* Drop support for Python 3.9.
+* Add support for Python 3.13 and 3.14.
+* Switch project development to uv.
+
 3.1.0 (2024-11-18)
 ------------------
 
